@@ -22,3 +22,8 @@ print_r($weiXin->getUserInfo($testFakeId));
 // 得到最新消息
 print_r($weiXin->getLatestMsgs());
 
+// 得到用户fakeid
+print_r($weiXin->getFakeid(100));
+
+// 得到用户分组信息
+print_r($weiXin->getGroups());

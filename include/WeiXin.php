@@ -256,4 +256,34 @@ class WeiXin
 
 		return false;
 	}
+	
+	public function getGroups(){
+		$url = "https://mp.weixin.qq.com/cgi-bin/contactmanage?t=user/index&lang=zh_CN&token={$this->webToken}&pagesize=10&pageidx=0&type=0&groupid=0";
+		$re = $this->lea->get($url,  $this->cookie);
+		$result = json_decode($re['body'], 1);
+		$match = array();
+		preg_match('/["\' ]groups["\' ]:\[{(.+?)}\]/', $re['body'], $match);
+		if(count($match) != 2) {
+			return "";
+		}
+
+		$match[1] = "[{". $match[1]. "}]";
+
+		return json_decode($match[1], 1);
+	}
+
+	public function getFakeid($pageNum){
+		$url = "https://mp.weixin.qq.com/cgi-bin/contactmanage?t=user/index&lang=zh_CN&token={$this->webToken}&pagesize=$pageNum&pageidx=0&type=0&groupid=101";
+		$re = $this->lea->get($url,  $this->cookie);
+		$result = json_decode($re['body'], 1);
+		$match = array();
+		preg_match('/["\' ]contacts["\' ]:\[{(.+?)}\]/', $re['body'], $match);
+		if(count($match) != 2) {
+			return "";
+		}
+
+		$match[1] = "[{". $match[1]. "}]";
+
+		return json_decode($match[1], 1);
+	}
 }
